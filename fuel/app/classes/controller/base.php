@@ -21,6 +21,7 @@ class Controller_Base extends Controller {
   public function after() {
     $this->_view->footer = View::factory('footer');
 
+    if (empty($this->_view->pageClass)) { $this->_view->pageClass = ''; }
     if (empty($this->_view->content)) { $this->_view->content = ''; }
     
     $this->response->body = $this->_view;   
