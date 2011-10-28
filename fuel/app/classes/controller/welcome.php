@@ -19,7 +19,7 @@ class Controller_Welcome extends Controller_Base {
 	 */
 	public function action_index()
 	{
-		$this->response->body = View::factory('welcome/index');
+	  $this->_view->content = View::factory('welcome/index');
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Controller_Welcome extends Controller_Base {
 
 		// Set a HTTP 404 output header
 		$this->response->status = 404;
-		$this->response->body = View::factory('welcome/404', $data);
+		$this->_view->content = View::factory('funnies/index', $data, false);
 	}
 }
 
