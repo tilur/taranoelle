@@ -9,7 +9,7 @@
  * @package  app
  * @extends  Controller
  */
-class Controller_Welcome extends Controller {
+class Controller_Welcome extends Controller_Base {
 
 	/**
 	 * The index action.
