@@ -10,17 +10,24 @@
  * @extends  Controller
  */
 class Controller_Base extends Controller {
+  protected $frontPage;
+
 
   public function before() {
     $this->_view = View::factory('layout');
- 
-    $this->_view->head = View::factory('head');
-    $this->_view->header = View::factory('header');   
   }
 
   public function after() {
+		$user = Session::get('user');
+		if (isset($user)) { $data['user'] = $user; }
+		
+		$this->_view->head = View::factory('head', array('frontPage'=>$this->frontPage)); 
+    if (empty($this->_view->header)) { $this->_view->header = View::factory('header-inner', $data); }
+
     $this->_view->footer = View::factory('footer');
 
+    if (empty($this->_view->frontPage)) { $this->_view->frontPage = false; }
+    if (empty($this->_view->bgImage)) { $this->_view->bgImage = Model_Site::get_path_background(); }
     if (empty($this->_view->pageClass)) { $this->_view->pageClass = ''; }
     if (empty($this->_view->contentClass)) { $this->_view->contentClass = ''; }
     if (empty($this->_view->content)) { $this->_view->content = ''; }
@@ -29,4 +36,4 @@ class Controller_Base extends Controller {
   }
 }
 
-/* End of file welcome.php */
+/* End of file base.php */

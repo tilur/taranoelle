@@ -1,1 +1,1 @@
-    <div id="tupper-footer"></div>
+<div id="tupper-footer"></div>

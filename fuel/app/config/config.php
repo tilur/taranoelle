@@ -23,7 +23,7 @@ return array(
 	 *
 	 * Set this to null to have it automatically detected.
 	 */
-	'base_url'		=> null,
+	'base_url'		=> '/',
 
 	/**
 	 * url_suffix - Any suffix that needs to be added to
@@ -41,7 +41,7 @@ return array(
 	 *
 	 * Set this to false or remove if you using mod_rewrite.
 	 */
-	'index_file'	=> 'index.php',
+	'index_file'	=> false,
 
 	/**
 	 * Your environment.  Can be set to any of the following:

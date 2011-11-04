@@ -1,0 +1,1 @@
+<?php echo $content['c_body']; ?>
