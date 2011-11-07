@@ -25,8 +25,11 @@ class Controller_Galleries extends Controller_Base {
     $this->_view->content = View::factory('galleries/index', $data);
   }
 
-  public function action_display($gallery) {
+  public function action_display($gallery, $load_image=null) {
+		$this->_view->contentClass = 'gallery';
+
     $data['gallery'] = Model_Galleries::galleries_get($gallery);
+		$data['load_image'] = $load_image;
 
     if (!Model_Galleries::galleries_access($data['gallery'])) {
       Response::redirect('login');

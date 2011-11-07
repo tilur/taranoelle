@@ -1,8 +1,10 @@
 <?php
 $routes = array(
-	'_root_'  => 'welcome/index',  // The default route
-	'_404_'   => 'welcome/404',    // The main 404 route
+	'_root_'						=> 'welcome/index',  // The default route
+	'_404_'							=> 'welcome/404',    // The main 404 route
 	
+	'logout'						=> 'login/logout',
+	'galleries/(:any)'	=> 'galleries/display/$1',
 	/**
 	 * This is an example of a BASIC named route (used in reverse routing).
 	 * The translated route MUST come first, and the 'name' element must come
@@ -16,7 +18,5 @@ if ($paths = DB::query("SELECT c_path FROM content GROUP BY c_path ORDER BY c_pa
 		$routes[$path['c_path']] = 'content/index';
 	}
 }
-
-$routes['galleries/(:any)'] = 'galleries/display/$1';
 
 return $routes;

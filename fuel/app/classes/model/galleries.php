@@ -9,11 +9,14 @@
  * @extends  Model
  */
 class Model_Galleries extends Model {
-	static public function galleries_get($g_path=null, $g_gallery_id=null, $admin=null) {
+	static public function galleries_get($g_path=null, $g_gallery_id=null, $admin=null, $customer=null) {
+		if (is_array($g_path)) { extract($g_path); }
+
 		$query = "SELECT *
 		  FROM galleries ";
 		if (isset($g_path)) { $query .= "WHERE g_path REGEXP '".$g_path."$' "; }
 		elseif (isset($g_gallery_id)) { $query .= "WHERE g_gallery_id = ".$g_gallery_id." "; }
+		elseif (isset($customer)) { $query .= "WHERE CONCAT(g_allowed_users, ',') REGEXP '".Session::get('userid').",' "; }
 		elseif (!isset($admin)) { $query .= "WHERE g_allowed_users IS NULL "; }
 		$query .= "ORDER BY g_category, g_name";
 		$query = DB::query($query);
@@ -23,6 +26,7 @@ class Model_Galleries extends Model {
 		    foreach ($galleries AS $i => $gallery) {
 		      $return[$gallery['g_category']][] = $gallery;
 		    }
+				$return['gallery_count'] = count($galleries);
 		  }
 		  else {
 		    $return = $galleries[0];
@@ -47,7 +51,7 @@ class Model_Galleries extends Model {
   static public function galleries_access($gallery) {
     $return = true; 
 
-    if (isset($gallery['g_allowed_users'])) {
+		if (Session::get('userid') !== '1' && isset($gallery['g_allowed_users'])) {
       $g_allowed_users = explode(',', $gallery['g_allowed_users']);
     
       if (!in_array(Session::get('userid'), $g_allowed_users)) {

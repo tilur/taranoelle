@@ -20,6 +20,7 @@ class Controller_Base extends Controller {
   public function after() {
 		$user = Session::get('user');
 		if (isset($user)) { $data['user'] = $user; }
+		else { $data['user'] = false; }
 		
 		$this->_view->head = View::factory('head', array('frontPage'=>$this->frontPage)); 
     if (empty($this->_view->header)) { $this->_view->header = View::factory('header-inner', $data); }

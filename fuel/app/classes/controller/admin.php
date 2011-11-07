@@ -13,7 +13,7 @@ class Controller_Admin extends Controller_Base {
   public function before() {
 		parent::before();
 
-    if (!Session::get('userid')) {
+    if (!Session::get('userid') && Session::get('userid') !== 1) {
       Response::redirect('login');
     }
   }
@@ -70,6 +70,8 @@ class Controller_Admin extends Controller_Base {
 		}
 
 	}
+
+	/*****[ Galleries ]*********************************************************/
   public function action_galleries($action, $g_gallery_id=null) {
     $this->_view->pageTitle = 'Galleries';
  
@@ -101,6 +103,39 @@ class Controller_Admin extends Controller_Base {
 
     $this->_view->content = View::factory('admin/galleries-form', $data);
   }
+
+	/*****[ Content ]***********************************************************/
+	public function action_content($action, $c_content_id=null) {
+    $this->_view->pageTitle = 'Content';
+ 
+    if ($action == 'manage') { $this->content_manage(); }
+    elseif (in_array($action, array('add', 'edit'))) {
+      if (Input::method() === 'POST') { $this->content_save(); }
+      else { $this->content_form($action, $c_content_id); }
+    }
+	}
+
+	public function content_save() {
+		if (Model_Content::content_save()) {
+			Response::redirect('admin/content/manage');
+		}
+	}
+
+  public function content_manage() {
+    $data['contents'] = Model_Content::content_get();
+    $this->_view->content = View::factory('admin/content-manage', $data);
+  }
+
+  public function content_form($action, $c_content_id=null) {
+    if ($action == 'add') { $data['gallery'] = array('g_gallery_id'=>'', 'g_category'=>'', 'g_name'=>'', 'g_description'=>'', 'g_allowed_users'=>'', 'images'=>array());  }
+    elseif ($action == 'edit') {
+      $data['content'] = Model_Content::content_get($c_content_id); 
+    }
+
+    $this->_view->content = View::factory('admin/content-form', $data);
+  }
+
 }
+
 
 /* End of file admin.php */

@@ -46,8 +46,17 @@ class Controller_Login extends Controller_Base {
     $user = array_shift($user->as_array());
     Session::set('user', $user);
     Session::set('userid', $user['u_user_id']);
-    Response::redirect('admin');
+		if ($user['u_user_id'] === 1) {
+	    Response::redirect('admin');
+		}
+		else {
+			Response::redirect('dashboard');
+		}
   }
+
+	public function logout() {
+		die('hii');
+	}
 
   public function after() {
     parent::after();
