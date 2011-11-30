@@ -26,30 +26,40 @@ class Model_Content extends Model {
 
   static public function content_save() {
     $c_content_id = Input::post('c_content_id');
-		$c_body = str_replace("\n", "<br>", Input::post('c_body'));
+    $c_path = Model_Site::slug(Input::post('c_path'));
+
+    if (empty($c_path)) { $c_path = Model_Site::slug(Input::post('c_title')); }
+    else { $c_path = Model_Site::slug($c_path, true); }
 
     if (isset($c_content_id) && !empty($c_content_id)) {
       $rows_affected = DB::update('content')
 				->set(array(
-					'c_path'=>Input::post('c_path'),
+					'c_path'=>$c_path,
 					'c_title'=>Input::post('c_title'),
-					'c_body'=>$c_body))
+					'c_body'=>Input::post('c_body')))
 				->where('c_content_id', '=', $c_content_id)
 				->execute();
     }
     else {
-      list($g_gallery_id, $rows_affected) = DB::insert('galleries')
+      list($c_content_id, $rows_affected) = DB::insert('content')
 				->set(array(
-					'g_path'=>$path,
-					'g_category'=>Input::post('g_category'),
-					'g_name'=>Input::post('g_name'),
-					'g_description'=>Input::post('g_description'),
-					'g_allowed_users'=>implode(',', Input::post('g_allowed_users'))))
+					'c_path'=>$c_path,
+					'c_title'=>Input::post('c_title'),
+					'c_body'=>Input::post('c_body')))
 				->execute();
     }
 
 		return true;
 	}
+
+  static public function content_delete() {
+    $result = DB::delete('content')
+      ->where('c_content_id', '=', Input::post('c_content_id'))
+      ->execute();
+
+    if ($result) { return true; }
+    else { return false; }    
+  }
 }
 
 /* End of file admin.php */

@@ -19,6 +19,7 @@ class Controller_Welcome extends Controller_Base {
 	 */
 	public function action_index()
 	{
+		$this->_view->contentClass = 'front';
 		$this->_view->header = View::factory('header-front');
 	}
 

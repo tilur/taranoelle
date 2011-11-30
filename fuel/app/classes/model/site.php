@@ -7,12 +7,12 @@
  */
 class Model_Site extends Model {
 	static public function get_path_background() {
-		$query = DB::query("SELECT b_no_extension
+		$query = DB::query("SELECT b_filename
 			FROM backgrounds
 			WHERE b_path = '".Uri::string()."'");
 
 		if ($background = $query->execute()->as_array()) {
-			$filename = $background[0]['b_no_extension'].'-1680.jpg';
+			$filename = $background[0]['b_filename'].'-1680.jpg';
 		}
 		else { $filename = 'default.jpg'; }
 
@@ -45,9 +45,19 @@ class Model_Site extends Model {
 		else { return array(); }
 	}
 
-  static public function slug($text) {
-    $text = preg_replace('/[~\!\@\#\$\%\^\&\*\(\)\_\+\=\-\\\]\[\'\;\/\.\,\|\}\{\"\:\?\>\<]/', '', $text);
+  static public function slug($text, $includeDash=false) {
+    if (empty($text)) { return ''; }
+
+    $text = trim(preg_replace('/ +/',' ',preg_replace('/[^\-a-zA-Z0-9\s]/','',strtolower($text))));
     $text = preg_replace('/ /', '-', $text);
-    return $text;
+
+    $wordsIn = explode('-', $text);
+    foreach ($wordsIn AS $word) {
+      if (strlen($word) > 3) { $wordsOut[] = $word; }
+    }
+
+    $text = implode('-', $wordsOut);
+
+    return strtolower($text);
   }
 }

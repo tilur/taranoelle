@@ -1,0 +1,1 @@
+<?php echo $blog['b_body']; ?>

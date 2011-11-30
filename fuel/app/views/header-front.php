@@ -6,7 +6,8 @@
 			<li><?php echo Html::anchor('contact', 'Contact'); ?></li>
 			<li><?php echo Html::anchor('galleries', 'Galleries'); ?></li>
 			<li><?php echo Html::anchor('details', 'Details'); ?></li>
-			<li class="last"><?php echo Html::anchor('links', 'People I Love'); ?></li>
+			<li><?php echo Html::anchor('links', 'People I Love'); ?></li>
+			<li class="last"><?php echo Html::anchor('login', 'Login'); ?></li>
 		</ul>
 	</div>
 	<div id="home-social-media">

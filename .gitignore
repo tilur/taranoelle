@@ -1,1 +1,4 @@
 /fuel/app/config/db.php
+/public/assets/img/backgrounds
+/public/assets/img/galleries
+/fuel/app/logs/

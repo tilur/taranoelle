@@ -22,8 +22,10 @@ class Controller_Base extends Controller {
 		if (isset($user)) { $data['user'] = $user; }
 		else { $data['user'] = false; }
 		
+		$data['headGalleries'] = Model_Galleries::galleries_get();
+
 		$this->_view->head = View::factory('head', array('frontPage'=>$this->frontPage)); 
-    if (empty($this->_view->header)) { $this->_view->header = View::factory('header-inner', $data); }
+    if (empty($this->_view->header)) { $this->_view->header = View::factory('header-inner', $data, false); }
 
     $this->_view->footer = View::factory('footer');
 

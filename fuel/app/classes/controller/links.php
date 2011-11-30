@@ -1,13 +1,13 @@
 <?php
 
 /**
- * The Galleries Controller.
+ * The Links Controller.
  *
- * The galleries contoller displays photo galleries to the user
+ * The links contoller displays links to the user
  *
  * @extends  Controller_Base
  */
-class Controller_Galleries extends Controller_Base {
+class Controller_Links extends Controller_Base {
   public function before() {
 		parent::before();
   }
@@ -17,23 +17,18 @@ class Controller_Galleries extends Controller_Base {
   }
 
   public function action_index() {
-    $data['galleries'] = Model_Galleries::galleries_get();
-    $data['errGallery'] = Session::get_flash('errGallery'); 
+    $data['links'] = Model_Links::links_get();
 
     $this->_view->contentClass = 'content';
-    $this->_view->pageTitle = 'Galleries';
+    $this->_view->pageTitle = 'Links';
 
-    $this->_view->content = View::factory('galleries/index', $data);
+    $this->_view->content = View::factory('links/index', $data);
   }
 
   public function action_display($gallery, $load_image=null) {
 		$this->_view->contentClass = 'gallery';
 
     $data['gallery'] = Model_Galleries::galleries_get($gallery);
-    if (!count($data['gallery'])) {
-      Session::set_flash('errGallery', 'The gallery you\'re looking for cannot be found');
-      Response::redirect('galleries');
-    }
 		$data['load_image'] = $load_image;
 
     if (!Model_Galleries::galleries_access($data['gallery'])) {
